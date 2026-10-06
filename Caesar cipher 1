@@ -1,0 +1,15 @@
+#include <stdio.h>
+int main()
+{
+    char s[100];
+    int k, i;
+    printf("Enter text: ");
+    fgets(s, 100, stdin);
+    printf("Enter shift: ");
+    scanf("%d", &k);
+    for(i=0; s[i]; i++)
+        if(s[i]>='a' && s[i]<='z')
+            s[i]=(s[i]-'a'+k)%26+'a';
+    printf("Cipher: %s", s);
+    return 0;
+}

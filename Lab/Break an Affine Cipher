@@ -1,0 +1,36 @@
+
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int main() {
+    char cipher[1000];
+    int i, y, x;
+
+    int a_inverse = 9;
+    int b = 15;
+
+    printf("Enter the ciphertext: ");
+    fgets(cipher, sizeof(cipher), stdin);
+
+    printf("Decrypted plaintext: ");
+
+    for (i = 0; cipher[i] != '\0'; i++) {
+        if (isupper((unsigned char)cipher[i])) {
+            y = cipher[i] - 'A';
+            x = (a_inverse * (y - b + 26)) % 26;
+            printf("%c", x + 'A');
+        }
+        else if (islower((unsigned char)cipher[i])) {
+            y = cipher[i] - 'a';
+            x = (a_inverse * (y - b + 26)) % 26;
+            printf("%c", x + 'a');
+        }
+        else {
+            printf("%c", cipher[i]);
+        }
+    }
+
+    printf("\n");
+    return 0;
+}

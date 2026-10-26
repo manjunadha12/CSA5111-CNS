@@ -1,0 +1,92 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+char matrix[5][5];
+void createMatrix(char key[])
+{
+    char alphabet[] = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
+    char used[26] = {0};
+    char text[100];
+    int i, j, k = 0;
+    strcpy(text, key);
+    strcat(text, alphabet);
+    for (i = 0; text[i] != '\0'; i++) {
+        char ch = toupper(text[i]);
+        if (ch == 'J')
+            ch = 'I';
+
+        if (ch >= 'A' && ch <= 'Z' && !used[ch - 'A']) {
+            used[ch - 'A'] = 1;
+            matrix[k / 5][k % 5] = ch;
+            k++;
+        }
+    }
+}
+
+void decryptPair(char a, char b)
+{
+    int r1, c1, r2, c2, i, j;
+
+    if (a == 'J') a = 'I';
+    if (b == 'J') b = 'I';
+
+    for (i = 0; i < 5; i++) {
+        for (j = 0; j < 5; j++) {
+            if (matrix[i][j] == a) {
+                r1 = i;
+                c1 = j;
+            }
+            if (matrix[i][j] == b) {
+                r2 = i;
+                c2 = j;
+            }
+        }
+    }
+
+    if (r1 == r2) {
+        printf("%c%c",
+               matrix[r1][(c1 + 4) % 5],
+               matrix[r2][(c2 + 4) % 5]);
+    }
+    else if (c1 == c2) {
+        printf("%c%c",
+               matrix[(r1 + 4) % 5][c1],
+               matrix[(r2 + 4) % 5][c2]);
+    }
+    else {
+        printf("%c%c",
+               matrix[r1][c2],
+               matrix[r2][c1]);
+    }
+}
+
+int main()
+{
+    char key[] = "ROYALNEWZEALANDNAVY";
+
+    char cipher[] =
+        "KXJEYUREBEZWEHEWRYTUHEYFS"
+        "KREHEGOYFIWTTTUOLKSYCAJPO"
+        "BOTEIZONTXBYBNTGONE YCUZWR"
+        "GDSONSXBOUYWRHEBAAHYUSEDQ";
+
+    char clean[200];
+    int i, j = 0;
+
+    createMatrix(key);
+
+    for (i = 0; cipher[i] != '\0'; i++) {
+        if (isalpha((unsigned char)cipher[i]))
+            clean[j++] = toupper(cipher[i]);
+    }
+    clean[j] = '\0';
+
+    printf("Decrypted message:\n");
+
+    for (i = 0; i + 1 < j; i += 2)
+        decryptPair(clean[i], clean[i + 1]);
+
+    printf("\n");
+
+    return 0;
+}

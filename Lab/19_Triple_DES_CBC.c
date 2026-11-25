@@ -1,7 +1,26 @@
 #include <stdio.h>
 #include <stdint.h>
-#include <string.h>
-/* Educational CBC structure using a reversible 64-bit XOR block primitive.
-   Replace block_enc with a vetted 3DES library for real security. */
-uint64_t block_enc(uint64_t x,uint64_t k){return x^k;}
-int main(void){uint64_t iv,k,p[20],c,prev;int n,i;printf("Enter 64-bit key (hex): ");scanf("%llx",(unsigned long long*)&k);printf("Enter 64-bit IV (hex): ");scanf("%llx",(unsigned long long*)&iv);printf("Number of 64-bit plaintext blocks (1-20): ");scanf("%d",&n);if(n<1||n>20)return puts("Invalid block count."),1;prev=iv;for(i=0;i<n;i++){printf("Block %d (hex): ",i+1);scanf("%llx",(unsigned long long*)&p[i]);c=block_enc(p[i]^prev,k);printf("Cipher block %d: %016llX\n",i+1,(unsigned long long)c);prev=c;}puts("Demo only: XOR is not 3DES and provides no cryptographic security.");return 0;}
+#define main des_demo_main
+#include "33_DES_Block_Cipher.c"
+#undef main
+static uint64_t triple_des_encrypt(uint64_t x,uint64_t k1,uint64_t k2,uint64_t k3){
+    x=des(x,k1,0); x=des(x,k2,1); return des(x,k3,0);
+}
+int main(void){
+    unsigned long long a,b,c,iv,block,out,prev; int n,i;
+    printf("Enter three 64-bit DES keys K1 K2 K3 (hex): ");
+    if(scanf("%llx%llx%llx",&a,&b,&c)!=3)return 1;
+    printf("Enter 64-bit IV (hex): "); if(scanf("%llx",&iv)!=1)return 1;
+    printf("Number of 64-bit plaintext blocks (1-100): ");
+    if(scanf("%d",&n)!=1||n<1||n>100)return puts("Invalid block count."),1;
+    prev=iv;
+    for(i=0;i<n;i++){
+        printf("Plaintext block %d (hex): ",i+1);
+        if(scanf("%llx",&block)!=1)return 1;
+        out=triple_des_encrypt(((uint64_t)block)^((uint64_t)prev),a,b,c);
+        printf("Ciphertext block %d: %016llX\n",i+1,out);
+        prev=out;
+    }
+    puts("CBC with 3DES EDE (educational legacy algorithm; use AES-GCM for new systems).");
+    return 0;
+}

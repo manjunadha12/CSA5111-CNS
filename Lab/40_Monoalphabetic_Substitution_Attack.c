@@ -1,0 +1,4 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+int main(void){char s[2000],map[26],order[]="ETAOINSHRDLCUMWFGYPBVKJXQZ";int cnt[26]={0},idx[26],i,j,t;printf("Enter ciphertext: ");fgets(s,sizeof s,stdin);for(i=0;s[i];i++)if(isalpha((unsigned char)s[i]))cnt[toupper((unsigned char)s[i])-'A']++;for(i=0;i<26;i++)idx[i]=i;for(i=0;i<26;i++)for(j=i+1;j<26;j++)if(cnt[idx[j]]>cnt[idx[i]]){t=idx[i];idx[i]=idx[j];idx[j]=t;}for(i=0;i<26;i++)map[idx[i]]=order[i];printf("Approximate plaintext: ");for(i=0;s[i];i++)putchar(isalpha((unsigned char)s[i])?map[toupper((unsigned char)s[i])-'A']:s[i]);puts("\nThis is a frequency substitution estimate, not guaranteed automatic cryptanalysis.");return 0;}

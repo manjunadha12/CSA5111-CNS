@@ -1,0 +1,3 @@
+#include <stdio.h>
+#include <stdint.h>
+int main(void){uint64_t x,t,forged;printf("Enter one-block message X (hex): ");scanf("%llx",(unsigned long long*)&x);printf("Enter its CBC-MAC tag T (hex): ");scanf("%llx",(unsigned long long*)&t);forged=x^t;printf("Forged second block X XOR T = %016llX\n",(unsigned long long)forged);puts("For CBC-MAC with a fixed key and a one-block message, X || (X XOR T) can produce the same final chaining value T under the stated construction.");puts("Use CMAC or length binding to prevent this variable-length forgery.");return 0;}

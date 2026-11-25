@@ -1,5 +1,0 @@
-#include <stdio.h>
-#include <stdint.h>
-void shift64(uint64_t x,uint64_t *y){*y=x<<1;if(x>>63)*y^=0x1B;}
-void shift128(uint64_t hi,uint64_t lo,uint64_t *oh,uint64_t *ol){*oh=(hi<<1)|(lo>>63);*ol=lo<<1;if(hi>>63)*ol^=0x87;}
-int main(void){uint64_t l, k1,k2,hi,lo,h1,l1,h2,l2;printf("Enter 64-bit E_K(0) in hex: ");if(scanf("%llx",(unsigned long long*)&l)!=1)return 1;shift64(l,&k1);shift64(k1,&k2);printf("64-bit K1=%016llX K2=%016llX (R=0x1B)\n",(unsigned long long)k1,(unsigned long long)k2);printf("Enter 128-bit E_K(0) as high and low 64-bit hex: ");if(scanf("%llx%llx",(unsigned long long*)&hi,(unsigned long long*)&lo)!=2)return 1;shift128(hi,lo,&h1,&l1);shift128(h1,l1,&h2,&l2);printf("128-bit K1=%016llX%016llX\n",(unsigned long long)h1,(unsigned long long)l1);printf("128-bit K2=%016llX%016llX (R=0x87)\n",(unsigned long long)h2,(unsigned long long)l2);return 0;}

@@ -1,3 +1,0 @@
-#include <stdio.h>
-long long gcd(long long a,long long b){while(b){long long t=b;b=a%b;a=t;}return a;}
-int main(void){long long n,m,g;printf("Enter RSA modulus n: ");scanf("%lld",&n);printf("Enter plaintext block m (known to share a factor with n): ");scanf("%lld",&m);if(n<=1||m<0)return puts("Invalid input."),1;g=gcd(n,m);printf("gcd(m,n) = %lld\n",g);if(g>1&&g<n)printf("Factor found: p=%lld, q=%lld\n",g,n/g);else puts("No non-trivial factor revealed by this block.");return 0;}

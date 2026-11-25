@@ -1,2 +1,0 @@
-#include <stdio.h>
-int main(void){int i;puts("ECB ciphertext block error:");for(i=1;i<=5;i++)printf("P%d: %s\n",i,i==2?"CORRUPTED":"unchanged");puts("\nCBC ciphertext block C2 error:");for(i=1;i<=5;i++)printf("P%d: %s\n",i,i==2?"unpredictably corrupted":i==3?"one corresponding bit flips":"unchanged");puts("\nA bit error in plaintext P1 affects C1 and every later CBC ciphertext block (error propagation).");return 0;}

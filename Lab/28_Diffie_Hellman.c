@@ -1,0 +1,3 @@
+#include <stdio.h>
+long long powmod(long long a,long long e,long long m){long long r=1;a%=m;while(e){if(e&1)r=r*a%m;a=a*a%m;e>>=1;}return r;}
+int main(void){long long p,g,a,b,A,B,k1,k2;printf("Enter prime p and generator g: ");scanf("%lld%lld",&p,&g);printf("Enter Alice secret a and Bob secret b: ");scanf("%lld%lld",&a,&b);if(p<3||a<1||b<1)return puts("Invalid input."),1;A=powmod(g,a,p);B=powmod(g,b,p);k1=powmod(B,a,p);k2=powmod(A,b,p);printf("Alice public=%lld, Bob public=%lld\nAlice shared=%lld, Bob shared=%lld\n",A,B,k1,k2);puts(k1==k2?"Shared keys match.":"Error: keys differ.");puts("Unauthenticated DH is vulnerable to man-in-the-middle attacks; authenticate public values with certificates or signatures.");return 0;}

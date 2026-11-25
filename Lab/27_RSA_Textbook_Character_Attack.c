@@ -1,3 +1,0 @@
-#include <stdio.h>
-long long powmod(long long a,long long e,long long n){long long r=1;while(e){if(e&1)r=r*a%n;a=a*a%n;e>>=1;}return r;}
-int main(void){long long n,e,c,m;int i;printf("Enter public n and e: ");scanf("%lld%lld",&n,&e);printf("Enter ciphertext integer: ");scanf("%lld",&c);if(n<=26||e<=0||c<0||c>=n)return puts("Invalid input."),1;for(i=0;i<26;i++)if(powmod(i,e,n)==c){printf("Recovered character: %c (value %d)\n",'A'+i,i);return 0;}puts("No alphabet character matched. This illustrates why deterministic per-character textbook RSA leaks patterns.");return 0;}

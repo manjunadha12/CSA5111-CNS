@@ -1,0 +1,3 @@
+#include <stdio.h>
+#include <string.h>
+int main(void){unsigned char b[256];int n,i,pad;printf("Enter message: ");if(!fgets((char*)b,sizeof b,stdin))return 1;n=(int)strlen((char*)b);if(n&&b[n-1]=='\n')b[--n]=0;pad=8-(n%8);b[n++]=0x80;for(i=1;i<pad;i++)b[n++]=0;printf("Padded bytes (%d): ",n);for(i=0;i<n;i++)printf("%02X ",b[i]);puts("");puts("A full padding block is added when the message is block-aligned so the receiver can always remove padding unambiguously.");return 0;}

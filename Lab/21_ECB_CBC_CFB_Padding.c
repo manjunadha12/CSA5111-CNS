@@ -1,4 +1,0 @@
-#include <stdio.h>
-#include <string.h>
-void show(const char *name,const unsigned char *p,int n){int i;printf("%s: ",name);for(i=0;i<n;i++)printf("%02X ",p[i]);puts("");}
-int main(void){unsigned char p[256],ecb[256],cbc[256],cfb[256];int n,i,pad;unsigned char iv=0xA5,prev=iv,stream=0x3C;printf("Enter plaintext (max 250 chars): ");if(!fgets((char*)p,sizeof p,stdin))return 1;n=(int)strlen((char*)p);if(n&&p[n-1]=='\n')p[--n]=0;pad=8-(n%8);for(i=0;i<pad;i++)p[n+i]=(i==0)?0x80:0;n+=pad;for(i=0;i<n;i++){ecb[i]=p[i]^0x5A;cbc[i]=p[i]^prev^0x5A;prev=cbc[i];cfb[i]=p[i]^(stream^iv);iv=cfb[i];}show("Padded input",p,n);show("ECB demo",ecb,n);show("CBC demo",cbc,n);show("CFB demo",cfb,n);puts("Note: XOR is a teaching placeholder, not a secure block cipher.");return 0;}

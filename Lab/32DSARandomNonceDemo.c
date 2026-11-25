@@ -1,0 +1,3 @@
+#include <stdio.h>
+long long modpow(long long a,long long e,long long m){long long r=1;while(e){if(e&1)r=r*a%m;a=a*a%m;e>>=1;}return r;}
+int main(void){long long p=23,q=11,g=4,x=3,h=9,k,r,s,kinv;int i;printf("Toy DSA demo (p=23,q=11,g=4,private x=3,message hash=9)\n");for(i=0;i<2;i++){printf("Enter a fresh nonce k (1-10): ");scanf("%lld",&k);if(k<1||k>=q)return puts("Invalid nonce."),1;r=modpow(g,k,p)%q;kinv=1;while((kinv*k)%q!=1)kinv++;s=(kinv*(h+x*r))%q;printf("Signature %d: (r=%lld,s=%lld)\n",i+1,r,s);}puts("Different valid nonces usually produce different DSA signatures for the same message. Reusing or exposing k can reveal the private key. Toy parameters are insecure.");return 0;}

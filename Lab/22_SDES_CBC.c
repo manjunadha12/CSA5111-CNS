@@ -1,7 +1,0 @@
-#include <stdio.h>
-int perm(int x,const int *p,int n,int bits){int y=0,i;for(i=0;i<n;i++)y=(y<<1)|((x>>(bits-p[i]))&1);return y;}
-int sbox(int x,const int t[4][4]){int r=((x&8)>>2)|(x&1),c=(x>>1)&3;return t[r][c];}
-int fk(int x,int k){static int ep[]={4,1,2,3,2,3,4,1},p4[]={2,4,3,1},s0[4][4]={{1,0,3,2},{3,2,1,0},{0,2,1,3},{3,1,3,2}},s1[4][4]={{0,1,2,3},{2,3,1,0},{3,0,1,2},{2,1,0,3}};int l=x>>4,r=x&15,v=perm(r,ep,8,4)^k;return ((l^perm((sbox(v>>4,s0)<<2)|sbox(v&15,s1),p4,4,4))<<4)|r;}
-int keygen(int key,int round){static int p10[]={3,5,2,7,4,10,1,9,8,6},p8[]={6,3,7,4,8,5,10,9};int q=perm(key,p10,10,10),l=q>>5,r=q&31,sh=round?2:1;l=((l<<sh)|(l>>(5-sh)))&31;r=((r<<sh)|(r>>(5-sh)))&31;return perm((l<<5)|r,p8,8,10);}
-int enc(int x,int k){static int ip[]={2,6,3,1,4,8,5,7},inv[]={4,1,3,5,7,2,8,6};int y=perm(x,ip,8,8);y=fk(y,keygen(k,0));y=((y&15)<<4)|(y>>4);y=fk(y,keygen(k,1));return perm(y,inv,8,8);}
-int main(void){int key,iv,n,i,p,c,prev;printf("Enter 10-bit S-DES key (0-1023): ");scanf("%d",&key);printf("Enter 8-bit IV (0-255): ");scanf("%d",&iv);printf("Number of 8-bit plaintext blocks: ");scanf("%d",&n);if(key<0||key>1023||iv<0||iv>255||n<1||n>100)return puts("Invalid input."),1;prev=iv;for(i=0;i<n;i++){printf("Plaintext byte %d (0-255): ",i+1);scanf("%d",&p);if(p<0||p>255)return puts("Invalid byte."),1;c=enc(p^prev,key);printf("Cipher byte: %d (0x%02X)\n",c,c);prev=c;}return 0;}

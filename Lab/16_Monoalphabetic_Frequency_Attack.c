@@ -1,4 +1,0 @@
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
-int main(void){char s[2000],alpha[]="ETAOINSHRDLCUMWFGYPBVKJXQZ",cipher[]="ABCDEFGHIJKLMNOPQRSTUVWXYZ",map[26];int count[26]={0},i,j,t,idx[26];printf("Enter ciphertext: ");fgets(s,sizeof s,stdin);for(i=0;s[i];i++)if(isalpha((unsigned char)s[i]))count[toupper((unsigned char)s[i])-'A']++;for(i=0;i<26;i++)idx[i]=i;for(i=0;i<26;i++)for(j=i+1;j<26;j++)if(count[idx[j]]>count[idx[i]]){t=idx[i];idx[i]=idx[j];idx[j]=t;}for(i=0;i<26;i++)map[idx[i]]=alpha[i];printf("Frequency-based candidate (approximate):\n");for(i=0;s[i];i++)putchar(isalpha((unsigned char)s[i])?map[toupper((unsigned char)s[i])-'A']:s[i]);puts("\nNote: frequency mapping is a heuristic, not guaranteed decryption.");return 0;}

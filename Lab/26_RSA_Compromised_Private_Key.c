@@ -1,2 +1,0 @@
-#include <stdio.h>
-int main(void){long long p,q,n,phi,e,d;printf("Enter small demonstration primes p and q: ");scanf("%lld%lld",&p,&q);if(p<2||q<2)return puts("Invalid primes."),1;n=p*q;phi=(p-1)*(q-1);printf("Modulus n=%lld, phi=%lld\n",n,phi);printf("If private key d leaks, changing e and d while keeping n does NOT restore security.\n");printf("An attacker who knows d can recover phi(n) in practical settings and factor n; generate a new independent modulus.\n");printf("Demo modulus is small and must never be used for real security.\n");return 0;}

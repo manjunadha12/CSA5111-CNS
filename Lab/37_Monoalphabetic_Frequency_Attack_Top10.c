@@ -1,4 +1,0 @@
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
-int main(void){char s[2000],p[2000];const char *freq="ETAOINSHRDLCUMWFGYPBVKJXQZ";int count[26]={0},order[26],i,j,t,k;printf("Ciphertext: ");fgets(s,sizeof s,stdin);for(i=0;s[i];i++)if(isalpha((unsigned char)s[i]))count[toupper((unsigned char)s[i])-'A']++;for(i=0;i<26;i++)order[i]=i;for(i=0;i<26;i++)for(j=i+1;j<26;j++)if(count[order[j]]>count[order[i]]){t=order[i];order[i]=order[j];order[j]=t;}puts("Top 10 frequency-based candidate mappings (heuristic):");for(k=0;k<10;k++){for(i=0;i<26;i++)p[i]=0;for(i=0;i<26;i++)p[order[i]]=freq[(i+k)%26];printf("Candidate %d: ",k+1);for(i=0;s[i];i++)putchar(isalpha((unsigned char)s[i])?p[toupper((unsigned char)s[i])-'A']:s[i]);}puts("\nFrequency-only candidates are approximate and need language scoring/manual review.");return 0;}
